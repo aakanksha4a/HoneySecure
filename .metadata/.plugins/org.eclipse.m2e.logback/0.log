@@ -1624,3 +1624,8 @@ Caused by: org.codehaus.plexus.util.xml.pull.XmlPullParserException: expected na
 2025-04-26 00:34:23,774 [Worker-30: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\OneDrive\Desktop\HoneySecure\HoneySecure\src\test\resources
 2025-04-26 00:34:52,380 [Worker-22: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\OneDrive\Desktop\HoneySecure\HoneySecure\src\main\resources
 2025-04-26 00:34:52,383 [Worker-22: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\OneDrive\Desktop\HoneySecure\HoneySecure\src\test\resources
+2025-04-26 09:51:20,820 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2025-04-26 09:51:22,644 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Updating Gradle version information cache failed. Using outdated cache.
+2025-04-26 09:51:34,201 [Worker-4: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - The artifact mysql:mysql-connector-java:jar:8.0.33 has been relocated to com.mysql:mysql-connector-j:jar:8.0.33: MySQL Connector/J artifacts moved to reverse-DNS compliant Maven 2+ coordinates.
+2025-04-26 09:51:34,946 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\OneDrive\Desktop\HoneySecure\HoneySecure\src\main\resources
+2025-04-26 09:51:34,955 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\OneDrive\Desktop\HoneySecure\HoneySecure\src\test\resources
