@@ -1,0 +1,67 @@
+
+<%@page import="com.honeySecure.daoimpl.HoneyUserDaoImpl"%>
+<%@page import="com.honeySecure.pojo.HoneyUser"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login Status</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .message-box {
+        background-color: white;
+        padding: 30px 60px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        font-size: 22px;
+        color: #333;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+<%
+HoneyUser u = new HoneyUser();
+u.setUsername(request.getParameter("username"));
+u.setPassword(request.getParameter("password"));
+
+HoneyUserDaoImpl daoimp = new HoneyUserDaoImpl();
+boolean isValid = daoimp.validateUser(u);
+
+if (isValid == true) {
+	request.setAttribute("msg", "Welcome To Home Page");
+	%>
+	<jsp:forward page="home.jsp"></jsp:forward>
+	<%
+} else {
+	request.setAttribute("msg", "Invalid Username/Password");
+	%>
+	<div class="message-box">
+	    <%= request.getAttribute("msg") %>
+	</div>
+	<jsp:forward page="Signin.jsp"></jsp:forward>
+	<%
+}
+%>
+</body>
+</html>

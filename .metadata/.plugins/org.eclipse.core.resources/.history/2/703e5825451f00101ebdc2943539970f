@@ -1,0 +1,61 @@
+package com.honeySecure.daoimpl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.honeySecure.dao.honeyUserDao;
+import com.honeySecure.pojo.HoneyUser;
+
+public class HoneyUserDaoImpl implements honeyUserDao {
+	
+	
+	String url = "jdbc:mysql://localhost:3306/honeysecure";
+	String name = "root";
+	String pass ="aakanksha01";
+
+	@Override
+	public boolean validateUser(HoneyUser u) {
+		
+		boolean isvalid = false;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			 con = DriverManager.getConnection(url,name,pass);
+			PreparedStatement pst = con.prepareStatement("select * from users where username=? and password =?");
+			pst.setString(1, u.getUsername());
+			pst.setString(2, u.getPassword());
+			
+			ResultSet rs = pst.executeQuery();
+			isvalid = rs.next();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		return isvalid;
+	}
+	
+	@Override
+	public boolean addNewUser(HoneyUser u) {
+		boolean b=false;
+		try {
+			PreparedStatement ps = con.prepareStatement("insert into userinfo values(?,?)");
+			ps.setString(1,u.getUsername());
+			ps.setString(2, u.getPassword());
+			int x=ps.executeUpdate();
+			if(x>=0) {
+				b=true;
+			}
+			else {
+				b=false;
+			}
+		} catch (Exception e) {
+			b=false;
+		}
+		return b;
+	}
+	
+
+}
+
+ 

@@ -1,0 +1,138 @@
+<%@page import="java.io.FileReader"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="com.honeySecure.pojo.Product"%>
+<%@page import="com.honeySecure.daoimpl.ProductDaoImpl"%>
+
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>All Products</title>
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Rajdhani', sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072fc);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.6s ease-in;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 35px 30px;
+      border-radius: 14px;
+      border: 1px solid #d0d7de;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      width: 700px;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #1e88e5;
+      font-size: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      color: #333;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    th {
+      background-color: #1e88e5;
+      color: #fff;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f0f4f8;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 1.5rem;
+      text-align: center;
+      color: #1e88e5;
+      text-decoration: none;
+      font-size: 13px;
+      transition: 0.3s;
+    }
+
+    .back-link:hover {
+      color: #0d47a1;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<jsp:include page="header.jsp"></jsp:include>
+<div class="container">
+  <h2>List of All Products</h2>
+  <table>
+    <tr>
+      <th>S.No.</th>
+      <th>Product ID</th>
+      <th>Product Name</th>
+      <th>Price</th>
+    </tr>
+    <%
+    String path = "C:\\Users\\admin\\OneDrive\\Desktop\\HoneySecure\\HoneySecure\\src\\main\\webapp\\files\\data.txt";
+    BufferedReader reader = new BufferedReader(new FileReader(path));
+    String line;
+    int count = 1;
+    String pid = "", name = "", price = "";
+
+    while ((line = reader.readLine()) != null) {
+        if (line.startsWith("Product ID:")) {
+            pid = line.substring(line.indexOf(":") + 1).trim();
+        } else if (line.startsWith("Product Name:")) {
+            name = line.substring(line.indexOf(":") + 1).trim();
+        } else if (line.startsWith("Price:")) {
+            price = line.substring(line.indexOf(":") + 1).trim();
+        } else if (line.startsWith("------")) {
+%>
+<tr>
+    <td><%= count++ %></td>
+    <td><%= pid %></td>
+    <td><%= name %></td>
+    <td><%= price %></td>
+</tr>
+<%
+        }
+    }
+    reader.close();
+    %>
+   
+  </table>
+  <a href="home1.jsp" class="back-link">← Back to Home</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HoneySecure Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .login-container {
+            width: 300px;
+            margin: 120px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #aaa;
+        }
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Hide honeypot field */
+        .honeypot {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to HoneySecure</h2>
+        <form action="HoneyUser" method="post">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required />
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required />
+
+            <!-- Honeypot Field -->
+            <input type="text" name="honeypotField" class="honeypot" />
+
+            <input type="submit" value="Login" class="btn" />
+        </form>
+    </div>
+</body>
+</html>

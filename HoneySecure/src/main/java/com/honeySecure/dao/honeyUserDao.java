@@ -1,0 +1,8 @@
+package com.honeySecure.dao;
+
+import com.honeySecure.pojo.HoneyUser;
+
+public interface honeyUserDao {
+	boolean validateUser (HoneyUser u);
+	boolean addNewUser(HoneyUser u);
+}

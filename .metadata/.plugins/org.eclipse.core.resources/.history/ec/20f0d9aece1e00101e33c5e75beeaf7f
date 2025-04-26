@@ -1,0 +1,74 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            margin: 0;
+            padding: 0;
+            color: white;
+            animation: fadeIn 1.2s ease-in;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .content {
+            text-align: center;
+            margin-top: 80px;
+            font-size: 20px;
+            animation: slideUp 1s ease-out;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 35px;
+            background-color: #ff4081;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #f50057;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌟 Welcome to Your Awesome Dashboard 🌟</h1>
+    </div>
+    <div class="content">
+        <p>🎉 Great to see you here! You’ve successfully logged in. Let's make today productive! 💪</p>
+        <a href="logout.jsp" class="btn">🚪 Logout</a>
+    </div>
+</body>
+</html>

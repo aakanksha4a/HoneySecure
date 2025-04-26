@@ -1,0 +1,85 @@
+package com.honeySecure.controller;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import com.honeySecure.daoimpl.ProductDaoImpl;
+import com.honeySecure.pojo.Product;
+
+@WebServlet("/ProductServlet")
+public class ProductServlet extends HttpServlet {
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	    Product p = new Product();
+	    try {
+	        p.setPid(Integer.parseInt(request.getParameter("pid")));
+	    } catch (NumberFormatException e) {
+	        System.out.println("Invalid Product id: " + e);
+	    }
+
+	    p.setPname(request.getParameter("pname"));
+
+	    try {
+	        p.setPrice(Double.parseDouble(request.getParameter("price")));
+	    } catch (NumberFormatException e) {
+	        System.out.println("Invalid Product price: " + e);
+	    }
+
+	    String op = request.getParameter("b1");
+	    ProductDaoImpl daoimpl = new ProductDaoImpl();
+	    
+	    String msg=null;
+
+	    if ("Add".equals(op)) {
+	        if( daoimpl.addProduct(p)) {
+	        	request.setAttribute("msg", "Product Added Successfully");
+	        }
+	        else {
+	        	request.setAttribute("msg", "Product  Could Not be Added Successfully");
+	        }
+	    }
+
+	    if ("Update".equals(op)) {
+	    	if( daoimpl.updateProduct(p)) {
+	    		request.setAttribute("msg", "Product Updated Successfully");
+	        }
+	        else {
+	        	request.setAttribute("msg", "Product  Could Not be updated Successfully");
+	        }
+
+	    }
+
+	    if ("Delete".equals(op)) {
+	    	if( daoimpl.deleteProduct(p)) {
+	    		request.setAttribute("msg", "Product Deleted Successfully");
+	        }
+	        else {
+	        	request.setAttribute("msg", "Product  Could Not be Deleted Successfully");
+	        }
+	    }
+
+	    if ("Update Product".equals(op)) {
+	    	if( daoimpl.updateProduct(p)) {
+	    		request.setAttribute("msg", "Product Updated Successfully");
+	        }
+	        else {
+	        	request.setAttribute("msg", "Product  Could Not be updated Successfully");
+	        }
+	    	RequestDispatcher rd = request.getRequestDispatcher("modifyproduct.jsp");
+		    rd.forward(request, response);
+             
+	    }
+	    
+	    RequestDispatcher rd = request.getRequestDispatcher("amdproduct.jsp");
+	    rd.forward(request, response);
+	    
+	}
+
+}

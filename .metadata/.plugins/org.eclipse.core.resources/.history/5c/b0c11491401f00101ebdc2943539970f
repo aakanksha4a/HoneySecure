@@ -1,0 +1,97 @@
+
+<%@page import="com.honeySecure.daoimpl.ProductDaoImpl"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Product Operation</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(to right, #00c6ff, #0072ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .message-container {
+        background-color: #fff;
+        padding: 30px 50px;
+        border-radius: 16px;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        color: #333;
+        font-size: 20px;
+        animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+<%
+    Product p = new Product();
+    try {
+        p.setPid(Integer.parseInt(request.getParameter("pid")));
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid Product id: " + e);
+    }
+
+    p.setPname(request.getParameter("pname"));
+
+    try {
+        p.setPrice(Double.parseDouble(request.getParameter("price")));
+    } catch (NumberFormatException e) {
+        System.out.println("Invalid Product price: " + e);
+    }
+
+    String op = request.getParameter("b1");
+    ProductDaoImpl daoimpl = new ProductDaoImpl();
+    boolean b = false;
+    String msg = "";
+
+    if ("Add".equals(op)) {
+        b = daoimpl.addProduct(p);
+        msg = b ? "✅ Product Added Successfully" : "❌ Product Could Not be Added";
+    }
+
+    if ("Update".equals(op)) {
+        b = daoimpl.updateProduct(p);
+        msg = b ? "✅ Product Updated Successfully" : "❌ Product Could Not be Updated";
+    }
+
+    if ("Delete".equals(op)) {
+        b = daoimpl.deleteProduct(p);
+        msg = b ? "✅ Product Deleted Successfully" : "❌ Product Could Not be Deleted";
+    }
+
+    if ("Update Product".equals(op)) {
+        b = daoimpl.updateProduct(p);
+        msg = b ? "✅ Updated Successfully" : "❌ Product Could Not be Updated";
+%>
+    <jsp:forward page="modifyproduct.jsp">
+        <jsp:param name="msg" value="<%= msg %>" />
+    </jsp:forward>
+<%
+        return;
+    }
+%>
+
+<div class="message-container">
+    <%= msg %>
+</div>
+
+<jsp:forward page="amdproduct.jsp">
+    <jsp:param name="msg" value="<%= msg %>" />
+</jsp:forward>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+
+<%@page import="com.honeySecure.daoimpl.ProductDaoImpl"%>
+<%@page import="com.honeySecure.pojo.Product"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Product Operation</title>
+</head>
+<body>
+<%
+Product p=new Product();
+try {
+	p.setPid(Integer.parseInt(request.getParameter("pid")));
+} catch(NumberFormatException e) {
+	System.out.println("Invalid Product id"+e);
+}
+
+p.setPname(request.getParameter("pname"));
+
+try {
+	p.setPrice(Double.parseDouble(request.getParameter("price")));
+} catch(NumberFormatException e) {
+	System.out.println("Invalid Product price"+e);
+}
+
+String op = request.getParameter("b1");
+ProductDaoImpl daoimpl=new ProductDaoImpl();
+boolean b = false;
+
+if(op.equals("Add")) {
+	b = daoimpl.addProduct(p);
+	if(b==true)
+		request.setAttribute("msg", "Product Added Successfully");
+	else
+		request.setAttribute("msg", "Product Could Not be Added");
+}
+
+if(op.equals("Update")) {
+	b = daoimpl.updateProduct(p);
+	if(b==true)
+		request.setAttribute("msg", "Product Updated Successfully");
+	else
+		request.setAttribute("msg", "Product Could Not be Updated");
+}
+
+if(op.equals("Delete")) {
+	b = daoimpl.deleteProduct(p);
+	if(b==true)
+		request.setAttribute("msg", "Product Deleted Successfully");
+	else
+		request.setAttribute("msg", "Product Could Not be Deleted");
+}
+if(op.equals("Update Product"))
+{
+	b = daoimpl.updateProduct(p);
+	if(b==true)
+		request.setAttribute("msg", "Updated Successfully");
+	else
+		request.setAttribute("msg", "Product Could Not be Updated");
+	%>
+	<jsp:forward page="modifyproduct.jsp"></jsp:forward>
+	<%
+}
+%>
+<jsp:forward page="amdproduct.jsp"></jsp:forward>
+</body>
+</html>

@@ -1,0 +1,20 @@
+package com.honeySecure.daoimpl;
+
+import com.honeySecure.dao.honeyUserDao;
+import com.honeySecure.pojo.HoneyUser;
+
+public class HoneyUserDaoImpl implements honeyUserDao {
+	
+	
+	String url = "jdbc:mysql://localhost:3306/honeysecure";
+	String name = "root";
+	String pass ="aakanksha01";
+
+	@Override
+	public boolean validateUser(HoneyUser u) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+
+}

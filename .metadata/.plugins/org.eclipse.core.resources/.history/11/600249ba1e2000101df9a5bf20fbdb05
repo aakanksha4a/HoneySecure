@@ -1,0 +1,34 @@
+package com.honeySecure.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+
+@WebServlet("/UserServlet")
+public class UserServlet extends HttpServlet {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HoneyUser u = new HoneyUser();
+		u.setUsername(request.getParameter("username"));
+		u.setPassword(request.getParameter("password"));
+
+		HoneyUserDaoImpl daoimp = new HoneyUserDaoImpl();
+		boolean b = daoimp.addNewUser(u);
+			if(b==true)
+			{
+				request.setAttribute("msg", "You Are Registered Successfully login here");
+				
+			}
+			else
+			{
+				request.setAttribute("msg", "User Could Not Be Register");
+				
+			}
+	}
+
+}

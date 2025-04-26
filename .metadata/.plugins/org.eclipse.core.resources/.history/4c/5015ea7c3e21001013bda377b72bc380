@@ -1,0 +1,33 @@
+package com.honeySecure.controller;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+import com.honeySecure.util.MailUtil;
+
+
+@WebServlet("/FakeActivity")
+public class FakeActivity extends HttpServlet {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String trap = request.getParameter("trap");
+    String username = (String) request.getSession().getAttribute("username1");
+        
+        String filePath = "C:/honeypot_logs/fake_activity.txt";
+        try (FileWriter fw = new FileWriter(filePath, true)) {
+            fw.write("⚠️ FAKE ACCESS: " + username + " | Activity: " + trap + "\n");
+        }
+
+        MailUtil.sendLoginAlert("aakankshasolanki911@gmail.com", filePath);
+        response.sendRedirect("logout.jsp");  // silently log them out or redirect again
+    }
+
+	}
+
+

@@ -1,0 +1,5 @@
+package com.honeySecure.dao;
+
+public interface honeyUserDao {
+
+}

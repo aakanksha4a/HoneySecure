@@ -1,0 +1,100 @@
+
+
+
+
+
+
+
+
+
+
+
+
+------
+Operation: Add
+Product ID: 103
+Product Name: ac
+Price: 42.0
+Timestamp: 2025-04-24T11:11:07.337633400
+------
+Operation: Update
+Product ID: 103
+Product Name: fridge
+Price: 85.0
+Timestamp: 2025-04-24T11:11:17.299390800
+------
+Operation: Delete
+Product ID: 52
+Product Name: iron
+Price: 65.0
+Timestamp: 2025-04-24T11:11:28.337314900
+------
+Operation: Update Product
+Product ID: 52
+Product Name: table
+Price: 563.0
+Timestamp: 2025-04-24T11:11:51.636976500
+------
+Operation: Add
+Product ID: 99
+Product Name: chair
+Price: 45.0
+Timestamp: 2025-04-25T23:18:18.255767700
+------
+Operation: Add
+Product ID: 78
+Product Name: sofa
+Price: 654678.0
+Timestamp: 2025-04-25T23:54:00.718247800
+------
+Operation: Update
+Product ID: 104
+Product Name: soap
+Price: 20.0
+Timestamp: 2025-04-25T23:54:14.824074400
+------
+Operation: Add
+Product ID: 101
+Product Name: owl
+Price: 200.0
+Timestamp: 2025-04-26T00:08:39.726568700
+------
+Operation: Add
+Product ID: 123
+Product Name: mouse
+Price: 200.0
+Timestamp: 2025-04-26T00:14:59.658869400
+------
+Operation: Update
+Product ID: 102
+Product Name: hotDog
+Price: 20.0
+Timestamp: 2025-04-26T00:19:11.408507800
+------
+Operation: Add
+Product ID: 21
+Product Name: pasta
+Price: 10.0
+Timestamp: 2025-04-26T00:26:35.581502500
+------
+ FAKE ACCESS: solankiaakanksha91@gmail.com | Activity: FakeUserEntered
+Operation: Delete
+Product ID: 104
+Product Name: soap
+Price: 20.0
+Timestamp: 2025-04-26T00:36:39.752183900
+------
+Operation: Delete
+Product ID: 102
+Product Name: sdftgfrfa
+Price: 900.0
+Timestamp: 2025-04-26T00:36:50.156219700
+------
+ FAKE ACCESS: solankiaakanksha91@gmail.com | Activity: FakeUserEntered
+ FAKE ACCESS: vaibhavpatidar1999@gmail.com | Activity: FakeUserEntered
+Operation: Add
+Product ID: 80
+Product Name: ola
+Price: 78956.0
+Timestamp: 2025-04-26T00:57:30.266549400
+------

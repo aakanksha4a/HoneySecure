@@ -1,0 +1,153 @@
+
+<%@page import="com.honeySecure.pojo.Product"%>
+<%@page import="com.honeySecure.daoimpl.ProductDaoImpl"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product List</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #00c6ff, #0072ff);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease-in;
+  position: relative;
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 40px 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 400px;
+  animation: slideUp 0.8s ease-out;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #0072ff;
+  font-size: 28px;
+}
+
+form select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+form select:focus {
+  outline: none;
+  border-color: #0072ff;
+  box-shadow: 0 0 8px rgba(0, 114, 255, 0.3);
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #0072ff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+  background-color: #0056cc;
+  transform: scale(1.05);
+}
+
+a {
+  display: inline-block;
+  margin-top: 1.2rem;
+  text-align: center;
+  color: #0072ff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #0056cc;
+  text-decoration: underline;
+}
+
+.top-right {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+}
+
+.top-right a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.top-right a:hover {
+  border-bottom: 1px solid #fff;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+  
+     </style>
+</head>
+<body>
+
+  <div class="top-right">
+    <a href="Logout.jsp">Logout</a>
+  </div>
+
+  <div class="container">
+    <h1>List of All Products</h1>
+    <form action="modifyproduct.jsp">
+      <select name="pid" required>
+        <%
+          ProductDaoImpl daoimp=new ProductDaoImpl();
+          List<Product> lst = daoimp.getAllProducts();		
+          for(Product p : lst) {
+        %>
+          <option value="<%=p.getPid()%>"><%=p.getPname()%> (ID: <%=p.getPid()%>)</option>
+        <%
+          }
+        %>
+      </select>
+      <br>
+      <input type="submit" value="Search Product">
+    </form>
+   
+    <a href="home.jsp" class="back-link">Back To Product Index Page</a>
+  </div>
+
+</body>
+</html>

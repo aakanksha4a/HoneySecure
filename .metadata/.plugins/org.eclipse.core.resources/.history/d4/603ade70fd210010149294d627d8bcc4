@@ -1,0 +1,144 @@
+
+<%@page import="java.io.FileReader"%>
+<%@page import="java.io.BufferedReader"%>
+<%@page import="com.honeySecure.pojo.Product"%>
+<%@page import="com.honeySecure.daoimpl.ProductDaoImpl"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Update Product</title>
+ <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #155799, #159957);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    form input[type="text"],
+    form input[type="submit"] {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    form input[type="submit"] {
+      background: #fff;
+      color: #155799;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    form input[type="submit"]:hover {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .message {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #ffd700;
+    }
+  </style>
+  </head>
+<body>
+  <div class="container">
+  <jsp:include page="header.jsp"></jsp:include>
+    <%
+    String msg = (String)request.getAttribute("msg");
+    if(msg != null) {
+    %>
+      <div class="message"><%= msg %></div>
+    <%
+    }
+
+    int pid = 0;
+    try {
+      pid = Integer.parseInt(request.getParameter("pid"));
+    } catch(NumberFormatException e) {
+      e.printStackTrace();
+    }
+
+    String path = "E:\\ecilpse\\honeyUser\\src\\main\\webapp\\files\\data.txt";
+    BufferedReader reader = new BufferedReader(new FileReader(path));
+
+    String line;
+    String filePid = "", pname = "", price = "";
+    boolean found = false;
+
+    while ((line = reader.readLine()) != null) {
+      if (line.startsWith("Product ID:")) {
+        filePid = line.substring(line.indexOf(":") + 1).trim();
+      } else if (line.startsWith("Product Name:")) {
+        pname = line.substring(line.indexOf(":") + 1).trim();
+      } else if (line.startsWith("Price:")) {
+        price = line.substring(line.indexOf(":") + 1).trim();
+      } else if (line.startsWith("------")) {
+        if (filePid.equals(String.valueOf(pid))) {
+          found = true;
+          break;
+        }
+      }
+    }
+    reader.close();
+
+    if (found) {
+  %>
+      <h2>Update Product Details</h2>
+      <form action="ProductServlet1" method="post">
+        Product ID<br><input type="text" name="pid" value="<%=filePid%>" readonly><br>
+        Product Name<br><input type="text" name="pname" value="<%=pname%>"><br>
+        Price<br><input type="text" name="price" value="<%=price%>"><br>
+        <input type="submit" value="Update Product" name="b1">
+      </form>
+  <%
+    } else {
+  %>
+      <div class="message">Product not found.</div>
+  <%
+    }
+  %>
+  <a href="home1.jsp">← Back to Product Index Page</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<%@page import="com.honeySecure.daoimpl.HoneyUserDaoImpl"%>
+<%@page import="com.honeySecure.dao.honeyUserDao"%>
+<%@page import="com.honeySecure.pojo.HoneyUser"%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+HoneyUser u = new HoneyUser();
+u.setUsername(request.getParameter("username"));
+u.setPassword(request.getParameter("password"));
+
+HoneyUserDaoImpl daoimp = new HoneyUserDaoImpl();
+boolean b = daoimp.addNewUser(u);
+	if(b==true)
+	{
+		request.setAttribute("msg", "You Are Registered Successfully login here");
+		%>
+		<jsp:forward page="Signin.jsp"></jsp:forward>
+		<%
+	}
+	else
+	{
+		request.setAttribute("msg", "User Could Not Be Register");
+		%>
+		<jsp:forward page="Reg.jsp"></jsp:forward>
+		<%
+	}
+%>
+</body>
+</html>

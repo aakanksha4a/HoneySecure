@@ -1,0 +1,95 @@
+package com.honeySecure.controller;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+import com.honeySecure.dao.honeyUserDao;
+import com.honeySecure.daoimpl.HoneyUserDaoImpl;
+import com.honeySecure.util.MailUtil;
+import com.honeySecure.util.MailUtil1;
+
+
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static final int MAX_ATTEMPTS = 4;
+    
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String honeypotField = request.getParameter("honeypotfield");
+		
+		
+		
+		com.honeySecure.pojo.HoneyUser u = new com.honeySecure.pojo.HoneyUser(username,password,honeypotField);
+		if (honeypotField != null && !honeypotField.trim().isEmpty()) {
+			System.out.println("HONEYPOT TRIGGERED by: " + username);
+            response.sendRedirect("fake.jsp");
+            return;
+        }
+		HttpSession session = request.getSession();
+		final HttpSession currentSession = session;
+		Integer  attempts = (Integer) session.getAttribute("failCount");
+		if(attempts == null) {
+			attempts =0;
+		}
+		
+		honeyUserDao dao = new HoneyUserDaoImpl();
+		boolean isvalid = dao.validateUser(u);
+		
+		if (isvalid) {
+            session.setAttribute("failCount", 0); 
+            session.setAttribute("username", username); 
+            String email = username; // implement this in your DAO
+            MailUtil1.sendLoginAlert(email); 
+            response.sendRedirect("home.jsp");
+        } 
+		else {
+            attempts++;
+            session.setAttribute("failCount", attempts);
+
+            if (attempts >= MAX_ATTEMPTS) {
+                System.out.println("Too many failed attempts. Redirecting to fake page.");
+                session = request.getSession();
+                session.setAttribute("username1", username);
+                session.setMaxInactiveInterval(60); 
+                
+                
+                
+                HttpSession finalSession = session;
+               new Thread(() -> {
+                    try {
+                        Thread.sleep(60000); 
+                       
+                       finalSession.invalidate(); 
+                        System.out.println("Session expired for user: " + username);
+                        
+                        honeyUserDao da = new HoneyUserDaoImpl();
+                        MailUtil.sendFakeUserAlertWithAttachment(password, honeypotField);
+                        System.out.println("Fake activity mail sent to: " + email);
+                        
+                   } catch (InterruptedException | IllegalStateException e) {
+                        System.out.println("Session already invalidated or interrupted.");
+                    }
+              }).start();
+
+                response.sendRedirect("home1.jsp");
+            } else {
+               // request.setAttribute("error", "Invalid credentials. Attempt: " + attempts);
+                //request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.setAttribute("msg", "Invalid username or password!");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+                dispatcher.forward(request, response);
+            }
+	}
+
+}
+}

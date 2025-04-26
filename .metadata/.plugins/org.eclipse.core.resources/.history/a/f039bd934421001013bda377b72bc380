@@ -1,0 +1,60 @@
+package com.honeySecure.util;
+
+import java.io.File;
+import java.util.Properties;
+
+import jakarta.activation.DataHandler;
+import jakarta.activation.FileDataSource;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+
+public class MailUtil {
+
+    public static void sendFakeUserAlertWithAttachment(String toEmail, String filePath) {
+        final String fromEmail = "aakankshasolanki911@gmail.com"; // your email
+        final String password = "your-app-password"; // use app password if 2FA is enabled
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        Authenticator auth = new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(fromEmail, password);
+            }
+        };
+
+        Session session = Session.getInstance(props, auth);
+
+        try {
+            MimeMessage msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(fromEmail, "HoneySecure"));
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            msg.setSubject("⚠️ Fake Activity Detected on Your Account");
+
+            // Body
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText("Dear user,\n\nSuspicious activity was detected on your account. Please find the attached log.\n\nRegards,\nHoneySecure Team");
+
+            // Attachment
+            MimeBodyPart attachmentPart = new MimeBodyPart();
+            File file = new File(filePath);
+            FileDataSource source = new FileDataSource(file);
+            attachmentPart.setDataHandler(new DataHandler(source));
+            attachmentPart.setFileName(file.getName());
+
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(attachmentPart);
+
+            msg.setContent(multipart);
+            Transport.send(msg);
+
+            System.out.println("🚨 Fake activity alert sent to: " + toEmail);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

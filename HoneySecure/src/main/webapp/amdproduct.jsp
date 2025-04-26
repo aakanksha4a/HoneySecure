@@ -1,0 +1,144 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Product</title>
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Rajdhani', sans-serif;
+  background: linear-gradient(to right, #00c6ff, #0072fc);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.container {
+  background-color: #ffffff;
+  padding: 40px 35px;
+  border-radius: 14px;
+  border: 1px solid #d0d7de;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  animation: slideUp 0.5s ease-out;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e88e5;
+  font-size: 24px;
+}
+
+.container input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.container input[type="text"]:focus {
+  border-color: #1e88e5;
+  box-shadow: 0 0 8px rgba(30, 136, 229, 0.2);
+  outline: none;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn-group input[type="submit"] {
+  width: 30%;
+  padding: 12px;
+  background-color: #1e88e5;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-group input[type="submit"]:hover {
+  background-color: #1565c0;
+  transform: scale(1.04);
+}
+
+.message {
+  color: #2e7d32;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 14px;
+}
+
+.back-link {
+  display: block;
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #1e88e5;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.back-link:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+     </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Manage Product</h2>
+
+    <%
+      String msg = (String)request.getAttribute("msg");
+      if(msg != null){
+    %>
+        <div class="message"><%= msg %></div>
+    <%
+      }
+    %>
+
+    <form action="ProductServlet" method="post">
+      <input type="text" name="pid" placeholder="Product ID" required />
+      <input type="text" name="pname" placeholder="Product Name" />
+      <input type="text" name="price" placeholder="Product Price" />
+
+      <div class="btn-group">
+        <input type="submit" value="Add" name="b1" />
+        <input type="submit" value="Update" name="b1" />
+        <input type="submit" value="Delete" name="b1" />
+      </div>
+
+      <a href="home.jsp" class="back-link">← Back to Home</a>
+    </form>
+  </div>
+
+</body>
+</html>

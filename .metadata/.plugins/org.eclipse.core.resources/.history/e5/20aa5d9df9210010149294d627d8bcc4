@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Rajdhani', sans-serif;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.6s ease-in;
+  }
+
+  .login-box {
+    background-color: #ffffff;
+    padding: 40px 35px;
+    border-radius: 14px;
+    border: 1px solid #d0d7de;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1e88e5;
+    font-size: 26px;
+  }
+
+  .login-box input[type="email"],
+  .login-box input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.3s;
+  }
+
+  .login-box input[type="email"]:focus,
+  .login-box input[type="password"]:focus {
+    border-color: #1e88e5;
+    box-shadow: 0 0 8px rgba(30, 136, 229, 0.2);
+    outline: none;
+  }
+
+  .login-box input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e88e5;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .login-box input[type="submit"]:hover {
+    background-color: #1565c0;
+    transform: scale(1.04);
+  }
+
+  .login-box a {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    color: #1e88e5;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+  }
+
+  .login-box a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+</style>  
+</head>
+<body> 
+
+  <div class="login-box">
+    <h2>Login</h2>
+    <%
+      String msg = (String) request.getAttribute("msg");
+      if (msg != null) {
+        out.print("<p style='color: red; text-align: center; font-size: 14px;'>" + msg + "</p>");
+      }
+    %>
+    <form action="login" method ="post">
+      <input type="email" placeholder="User-email" name="username" required />
+      <input type="password" placeholder="Password" name="password" required />
+      <input type="submit" value="Login" />
+      <a href="reg.jsp">New User Registration</a>
+    </form>
+  </div>
+
+</body>
+</html>

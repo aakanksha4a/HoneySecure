@@ -1,0 +1,99 @@
+package com.honeySecure.controller;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import com.honeySecure.util.MailUtil;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@WebServlet("/FakeActivity")
+public class FakeActivity extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Check if the alert has already been sent in this session
+        Boolean alertSent = (Boolean) request.getSession().getAttribute("alertSent");
+        
+        if (alertSent != null && alertSent) {
+            // Log to track if the form is being resubmitted
+            System.out.println("Alert already sent. Skipping email and redirecting.");
+            RequestDispatcher rd = request.getRequestDispatcher("home1.jsp");
+            rd.forward(request, response);
+            
+            //response.sendRedirect("home1.jsp");  // Redirect to home1.jsp without sending the email
+            return;
+        }
+
+        String trap = request.getParameter("trap");
+        String username = (String) request.getSession().getAttribute("username1");
+
+        if (username == null) {
+            // Log and redirect if no username exists in the session
+            System.out.println("No username found in session.");
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        // Step 1: Get user's email from DB
+        String toEmail = getEmailByUsername(username);
+
+        // Step 2: Create logs folder and file
+        String basePath = request.getServletContext().getRealPath("/");
+        File folder = new File(basePath, "honeypot_logs");  // NEW: Changed to use basePath
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        File file = new File(folder, "fake_activity.txt");
+        try (FileWriter fw = new FileWriter(file, true)) {
+            fw.write(" FAKE ACCESS: " + username + " | Activity: " + trap + "\n");
+        }
+
+        // Step 3: Send alert with attachment
+        if (toEmail != null) {
+            MailUtil.sendFakeUserAlertWithAttachment(toEmail, file.getAbsolutePath());
+            System.out.println("Fake activity alert sent to: " + toEmail);
+        } else {
+            System.out.println("No email found for user: " + username);
+        }
+
+        // Step 4: Mark the alert as sent to avoid resending it
+        request.getSession().setAttribute("alertSent", true);
+
+        // Redirect to home1.jsp after sending the email
+        response.sendRedirect("home1.jsp");
+    }
+
+    // Fetch email using username (which is stored in your case as the email)
+    private String getEmailByUsername(String username) {
+        String email = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/honeysecure", "root", "aakanksha01");
+            String query = "SELECT username FROM users WHERE username=?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, username);  // username is email in this case
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                email = rs.getString("username");
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return email;
+    }
+}
